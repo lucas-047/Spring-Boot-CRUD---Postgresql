@@ -1,0 +1,20 @@
+/*
+Project setup
+Java 21
+gradle 8
+
+install docker
+Initilize spring boot project
+- write hello world API
+- create databse connection with postgress (which should run in the docker)
+- Learn various annotation, spring jpa (one to many , many to one, one to one & mant to many ) relationship and how to implement
+- dbeaver
+
+- Implement this application
+We have users student and teachers
+students will have subject & each subject will have  a marks.
+
+So create table user, subject and marks
+- 1st create database tables and relationship, get it reviewed
+- Build API design for  CRUD API for this and create postman collection
+*/
