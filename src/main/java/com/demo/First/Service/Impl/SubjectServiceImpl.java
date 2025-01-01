@@ -3,16 +3,20 @@ package com.demo.First.Service.Impl;
 import java.util.List;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.demo.First.Model.User;
 import com.demo.First.DTO.SubjectDTO;
+import com.demo.First.Exception.DuplicateEntryException;
+import com.demo.First.Exception.EntryNotFoundException;
 import com.demo.First.Model.Subject;
 import com.demo.First.Repo.SubjectRepository;
 import com.demo.First.Service.SubjectService;
 import com.demo.First.Service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+
 
 @Service
 @NoArgsConstructor
@@ -26,15 +30,15 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public String createSubject(Subject subject) {
         if (subjectRepository.findById(subject.getSubjectId()).isPresent()) {
-            return  "SubjectId already exist";
+            throw new DuplicateEntryException("SubjectId already exists");
         }
         User teacher = userService.getUser(subject.getTeacher().getUserId());
         if (teacher == null) {
-            return "No Teacher Added";
+            return "Teacher not Added";
         }
         subject.setTeacher(teacher);
         subjectRepository.save(subject);
-        return "Subject Register Sucessful";
+        return "Success";
     }
 
     @Override
@@ -66,9 +70,10 @@ public class SubjectServiceImpl implements SubjectService {
                 }
             }
             subjectRepository.save(subject);
-            return "Subject Update Sucessful";
+            return "Success";
         } else {
-            return "No Subject Found";
+            throw new EntryNotFoundException("Subject Not Found");
+
         }
 
     }
@@ -76,12 +81,16 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public String deleteSubject(Long subjectID) {
         subjectRepository.deleteById(subjectID);
-        return "Subject Delete Sucessful";
+        return "Success";
     }
 
     @Override
     public SubjectDTO getSubjectDTO(Long subjectID) {
-        Subject subject = subjectRepository.findById(subjectID).get();
+        Optional<Subject> Osubject = subjectRepository.findById(subjectID);
+        if (!Osubject.isPresent()) {
+            throw new EntryNotFoundException("Subject Not Found");
+        }
+        Subject subject = Osubject.get();
         return new SubjectDTO(subject.getSubjectId(), subject.getSubjectName(),
                 subject.getTeacher() != null ? subject.getTeacher().getUserId() : null);
     }
@@ -98,7 +107,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Subject getSubject(Long SubjectId){
+    public Subject getSubject(Long SubjectId) {
         return subjectRepository.findById(SubjectId).get();
     }
 }

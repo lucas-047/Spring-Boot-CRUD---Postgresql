@@ -2,8 +2,11 @@ package com.demo.First.Service.Impl;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.demo.First.Exception.EntryNotFoundException;
 import com.demo.First.Model.User;
 import com.demo.First.Repo.UserRepository;
 import com.demo.First.Service.UserService;
@@ -21,7 +24,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String createUser(User user) {
         userRepository.save(user);
-        return "User Register Sucessful";
+        return "Success";
     }
 
     @Override
@@ -48,21 +51,25 @@ public class UserServiceImpl implements UserService {
                 }
             }
             userRepository.save(user);
-            return "User Update Sucessful";
+            return "Success";
         } else {
-            return "User not found";
+            throw new EntryNotFoundException("User Not Found");
         }
     }
 
     @Override
     public String deleteUser(Long userID) {
         userRepository.deleteById(userID);
-        return "User Delete Sucessful";
+        return "Success";
     }
 
     @Override
     public User getUser(Long userID) {
-        return userRepository.findById(userID).get();
+        Optional<User>  user = userRepository.findById(userID);
+        if (!user.isPresent()) {
+            throw new EntryNotFoundException("User Not Found");
+        }
+        return user.get();
     }
 
     @Override

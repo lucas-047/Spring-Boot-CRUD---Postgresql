@@ -3,12 +3,15 @@ package com.demo.First.Service.Impl;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.demo.First.Model.Marks;
 import com.demo.First.Model.Subject;
 import com.demo.First.Model.User;
 import com.demo.First.DTO.MarksDTO;
+import com.demo.First.Exception.EntryNotFoundException;
 import com.demo.First.Repo.MarksRepository;
 import com.demo.First.Service.MarksService;
 import com.demo.First.Service.SubjectService;
@@ -42,7 +45,7 @@ public class MarksServiceImpl implements MarksService {
         }
         marks.setSubject(subject);
         marksRepository.save(marks);
-        return "Marks Register Sucessful";
+        return "Success";
     }
 
     @Override
@@ -78,21 +81,26 @@ public class MarksServiceImpl implements MarksService {
                 }
             }
             marksRepository.save(marks);
-            return "Marks Update Sucessful";
+            return "Success";
         } else {
-            return "No Marks Found";
+            throw new EntryNotFoundException("Marks Not Found");
+
         }
     }
 
     @Override
     public String deleteMarks(Long marksID) {
         marksRepository.deleteById(marksID);
-        return "Marks Delete Sucessful";
+        return "Success";
     }
 
     @Override
     public MarksDTO getMarksDTO(Long marksID) {
-        Marks marks = marksRepository.findById(marksID).get();
+        Optional<Marks> Omarks = marksRepository.findById(marksID);
+        if (!Omarks.isPresent()) {
+            throw new EntryNotFoundException("Marks not Found");
+        }
+        Marks marks = Omarks.get();
         return new MarksDTO(marks.getMarksId(), marks.getStudent() != null ? marks.getStudent().getUserId() : null,
                 marks.getSubject() != null ? marks.getSubject().getSubjectId() : null, marks.getMarksObtained());
     }

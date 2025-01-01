@@ -2,6 +2,8 @@ package com.demo.First.Controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.demo.First.Model.User;
+import com.demo.First.Response.ResponseHandler;
 import com.demo.First.Service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -24,24 +27,29 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public String createUser(@RequestBody User user){
-        return userService.createUser(user);
+    public ResponseEntity<Object> createUser(@RequestBody User user){
+        userService.createUser(user);
+        return ResponseHandler.responseBuilder("User Created Successfully", HttpStatus.OK, null);
     }
     @PutMapping
-    public String updateUser(@RequestBody User user){
-        return userService.updateUser(user);
+    public ResponseEntity<Object> updateUser(@RequestBody User user){
+        userService.updateUser(user);
+        return ResponseHandler.responseBuilder("User Updated Successfully", HttpStatus.OK, null);
     }
     @DeleteMapping("/{userId}")
-    public String deleteUser(@PathVariable Long userId){
-        return userService.deleteUser(userId);
+    public ResponseEntity<Object> deleteUser(@PathVariable Long userId){
+        userService.deleteUser(userId);
+        return ResponseHandler.responseBuilder("User Deleted Successfully", HttpStatus.OK, null);
     }
     @GetMapping("/{userId}")
-    public User getUser(@PathVariable Long userId) {
-        return userService.getUser(userId);
+    public ResponseEntity<Object> getUser(@PathVariable Long userId) {
+        User user = userService.getUser(userId);
+        return ResponseHandler.responseBuilder("User fetched Successfully", HttpStatus.OK, user);
     }
     
     @GetMapping
-    public List<User> createUser(){
-        return userService.getAllUser();
+    public ResponseEntity<Object> createUser(){
+        List<User> users = userService.getAllUser();
+        return ResponseHandler.responseBuilder("User list fetched Successfully", HttpStatus.OK, users);
     }
 }

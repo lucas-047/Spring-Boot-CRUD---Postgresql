@@ -2,6 +2,8 @@ package com.demo.First.Controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.demo.First.Model.Marks;
+import com.demo.First.Response.ResponseHandler;
 import com.demo.First.DTO.MarksDTO;
 import com.demo.First.Service.MarksService;
 import lombok.AllArgsConstructor;
@@ -25,24 +28,29 @@ public class MarksController {
     MarksService marksService;
 
     @PostMapping
-    public String createMarks(@RequestBody Marks marks){
-        return marksService.createMarks(marks);
+    public ResponseEntity<Object> createMarks(@RequestBody Marks marks){
+        marksService.createMarks(marks);
+        return ResponseHandler.responseBuilder("Marks created Successfully", HttpStatus.OK, null);
     }
     @PutMapping
-    public String updateMarks(@RequestBody Marks marks){
-        return marksService.updateMarks(marks);
+    public ResponseEntity<Object> updateMarks(@RequestBody Marks marks){
+        marksService.updateMarks(marks);
+        return ResponseHandler.responseBuilder("Marks updated Successfully", HttpStatus.OK, null);
     }
     @DeleteMapping("/{marksId}")
-    public String deleteMarks(@PathVariable Long marksId){
-        return marksService.deleteMarks(marksId);
+    public ResponseEntity<Object> deleteMarks(@PathVariable Long marksId){
+        marksService.deleteMarks(marksId);
+        return ResponseHandler.responseBuilder("Marks deleted Successfully", HttpStatus.OK, null);
     }
     @GetMapping("/{marksId}")
-    public MarksDTO getMarks(@PathVariable Long marksId) {
-        return marksService.getMarksDTO(marksId);
+    public ResponseEntity<Object> getMarks(@PathVariable Long marksId) {
+        MarksDTO marksDTO = marksService.getMarksDTO(marksId);
+        return ResponseHandler.responseBuilder("Marks fetched Successfully", HttpStatus.OK, marksDTO);
     }
     
     @GetMapping
-    public List<MarksDTO> createMarks(){
-        return marksService.getAllMarksDTO();
+    public ResponseEntity<Object> createMarks(){
+        List<MarksDTO> marksDTOs =  marksService.getAllMarksDTO();
+        return ResponseHandler.responseBuilder("Marks list fetched Successfully", HttpStatus.OK, marksDTOs);
     }
 }
