@@ -1,0 +1,471 @@
+{
+  "info": {
+    "name": "Simple CRUD",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Test",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": null,
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/api/test",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "api",
+            "test"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "bruno",
+      "event": []
+    },
+    {
+      "name": "Marks",
+      "item": [
+        {
+          "name": "Add Marks",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/marks",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "marks"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"student\" : {\n    \"userId\" : 5\n  },\n  \"subject\" : {\n    \"subjectId\" : 3\n  },\n  \"marksObtained\" : 89\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Marks",
+          "event": [],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/marks/2",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "marks",
+                "2"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Get All Marks",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/marks",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "marks"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Update Marks",
+          "event": [],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/marks",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "marks"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"marksId\" : 1,\n  \"subject\" : {\n    \"subjectId\" : 3\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Marks",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/marks/1",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "marks",
+                "1"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subject",
+      "item": [
+        {
+          "name": "Add Subject",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/subject",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "subject"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subjectId\" : 3,\n  \"subjectName\" : \"C#\",\n  \"teacher\": {\n    \"userId\": 2\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Subject",
+          "event": [],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/subject/1",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "subject",
+                "1"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Get All Subject",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/subject",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "subject"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Get Subject by ID",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/subject/2",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "subject",
+                "2"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Update Subject",
+          "event": [],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/subject",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "subject"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subjectId\" : 1,\n  \"subjectName\": \"Java\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Add User",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/user",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "user"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"Troy\",\n  \"firstName\": \"Alice\",\n  \"lastName\": \"MArk\",\n  \"email\": \"alice@xyz.com\",\n  \"role\": \"TEACHER\",\n  \"dateOfBirth\": \"1989-01-01\",\n  \"phoneNumber\": \"+1234567890\",\n  \"address\": \"123 Main Street, Surat , Gujarat , India\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "event": [],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/user/1",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "user",
+                "1"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/user",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "user"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/user/1",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "user",
+                "1"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "event": [],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "auth": null,
+            "description": "",
+            "url": {
+              "raw": "http:/localhost:8080/api/user",
+              "protocol": "",
+              "host": [
+                "http:"
+              ],
+              "path": [
+                "localhost:8080",
+                "api",
+                "user"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"firstName\": \"Four\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": []
+}
