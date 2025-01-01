@@ -25,6 +25,9 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public String createSubject(Subject subject) {
+        if (subjectRepository.findById(subject.getSubjectId()).isPresent()) {
+            return  "SubjectId already exist";
+        }
         User teacher = userService.getUser(subject.getTeacher().getUserId());
         if (teacher == null) {
             return "No Teacher Added";
