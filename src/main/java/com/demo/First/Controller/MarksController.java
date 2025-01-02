@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.demo.First.Model.Marks;
 import com.demo.First.Response.ResponseHandler;
@@ -28,29 +29,33 @@ public class MarksController {
     MarksService marksService;
 
     @PostMapping
-    public ResponseEntity<Object> createMarks(@RequestBody Marks marks){
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Object> createMarks(@RequestBody Marks marks) {
         marksService.createMarks(marks);
-        return ResponseHandler.responseBuilder("Marks created Successfully", HttpStatus.OK, null);
+        return ResponseHandler.responseBuilder("Marks created Successfully", HttpStatus.CREATED, null);
     }
+
     @PutMapping
-    public ResponseEntity<Object> updateMarks(@RequestBody Marks marks){
+    public ResponseEntity<Object> updateMarks(@RequestBody Marks marks) {
         marksService.updateMarks(marks);
         return ResponseHandler.responseBuilder("Marks updated Successfully", HttpStatus.OK, null);
     }
+
     @DeleteMapping("/{marksId}")
-    public ResponseEntity<Object> deleteMarks(@PathVariable Long marksId){
+    public ResponseEntity<Object> deleteMarks(@PathVariable Long marksId) {
         marksService.deleteMarks(marksId);
         return ResponseHandler.responseBuilder("Marks deleted Successfully", HttpStatus.OK, null);
     }
+
     @GetMapping("/{marksId}")
     public ResponseEntity<Object> getMarks(@PathVariable Long marksId) {
         MarksDTO marksDTO = marksService.getMarksDTO(marksId);
         return ResponseHandler.responseBuilder("Marks fetched Successfully", HttpStatus.OK, marksDTO);
     }
-    
+
     @GetMapping
-    public ResponseEntity<Object> createMarks(){
-        List<MarksDTO> marksDTOs =  marksService.getAllMarksDTO();
+    public ResponseEntity<Object> createMarks() {
+        List<MarksDTO> marksDTOs = marksService.getAllMarksDTO();
         return ResponseHandler.responseBuilder("Marks list fetched Successfully", HttpStatus.OK, marksDTOs);
     }
 }

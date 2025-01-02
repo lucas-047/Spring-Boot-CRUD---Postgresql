@@ -17,7 +17,6 @@ import com.demo.First.Service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-
 @Service
 @NoArgsConstructor
 @AllArgsConstructor
@@ -85,12 +84,17 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public SubjectDTO getSubjectDTO(Long subjectID) {
-        Optional<Subject> Osubject = subjectRepository.findById(subjectID);
-        if (!Osubject.isPresent()) {
+    public Subject getSubject(Long SubjectId) {
+        Optional<Subject> subject = subjectRepository.findById(SubjectId);
+        if (!subject.isPresent()) {
             throw new EntryNotFoundException("Subject Not Found");
         }
-        Subject subject = Osubject.get();
+        return subject.get();
+    }
+
+    @Override
+    public SubjectDTO getSubjectDTO(Long subjectID) {
+        Subject subject = getSubject(subjectID);
         return new SubjectDTO(subject.getSubjectId(), subject.getSubjectName(),
                 subject.getTeacher() != null ? subject.getTeacher().getUserId() : null);
     }
@@ -106,8 +110,4 @@ public class SubjectServiceImpl implements SubjectService {
         return dtos;
     }
 
-    @Override
-    public Subject getSubject(Long SubjectId) {
-        return subjectRepository.findById(SubjectId).get();
-    }
 }

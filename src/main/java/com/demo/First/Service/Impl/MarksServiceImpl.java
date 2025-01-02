@@ -95,12 +95,18 @@ public class MarksServiceImpl implements MarksService {
     }
 
     @Override
-    public MarksDTO getMarksDTO(Long marksID) {
-        Optional<Marks> Omarks = marksRepository.findById(marksID);
-        if (!Omarks.isPresent()) {
+    public Marks getMarks(Long marksId) {
+        Optional<Marks> marks = marksRepository.findById(marksId);
+        if (!marks.isPresent()) {
             throw new EntryNotFoundException("Marks not Found");
         }
-        Marks marks = Omarks.get();
+        return marks.get();
+
+    }
+
+    @Override
+    public MarksDTO getMarksDTO(Long marksID) {
+        Marks marks = getMarks(marksID);
         return new MarksDTO(marks.getMarksId(), marks.getStudent() != null ? marks.getStudent().getUserId() : null,
                 marks.getSubject() != null ? marks.getSubject().getSubjectId() : null, marks.getMarksObtained());
     }
@@ -116,8 +122,4 @@ public class MarksServiceImpl implements MarksService {
         return dtos;
     }
 
-    @Override
-    public Marks getMarks(Long marksId) {
-        return marksRepository.findById(marksId).get();
-    }
 }

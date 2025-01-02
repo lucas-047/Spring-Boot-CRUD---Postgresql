@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.demo.First.DTO.SubjectDTO;
 import com.demo.First.Model.Subject;
@@ -28,9 +29,10 @@ public class SubjectController {
     @Autowired
     SubjectService subjectService;
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Object> createSubject(@RequestBody Subject subject){
         subjectService.createSubject(subject);
-        return ResponseHandler.responseBuilder("Subject added Successfully", HttpStatus.OK, null);
+        return ResponseHandler.responseBuilder("Subject added Successfully", HttpStatus.CREATED, null);
     }
     @PutMapping
     public ResponseEntity<Object> updateSubject(@RequestBody Subject subject){

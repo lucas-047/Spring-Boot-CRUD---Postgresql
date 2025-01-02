@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.demo.First.Model.User;
 import com.demo.First.Response.ResponseHandler;
@@ -27,9 +28,10 @@ public class UserController {
     UserService userService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Object> createUser(@RequestBody User user){
         userService.createUser(user);
-        return ResponseHandler.responseBuilder("User Created Successfully", HttpStatus.OK, null);
+        return ResponseHandler.responseBuilder("User Created Successfully", HttpStatus.CREATED, null);
     }
     @PutMapping
     public ResponseEntity<Object> updateUser(@RequestBody User user){
