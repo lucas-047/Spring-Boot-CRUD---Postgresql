@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.demo.First.Model.Marks;
@@ -16,7 +15,6 @@ import com.demo.First.Repo.MarksRepository;
 import com.demo.First.Service.MarksService;
 import com.demo.First.Service.SubjectService;
 import com.demo.First.Service.UserService;
-
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -89,8 +87,12 @@ public class MarksServiceImpl implements MarksService {
     }
 
     @Override
-    public String deleteMarks(Long marksID) {
-        marksRepository.deleteById(marksID);
+    public String deleteMarks(Long marksId) {
+        Optional<Marks> marks = marksRepository.findById(marksId);
+        if (!marks.isPresent()) {
+            throw new EntryNotFoundException("Marks not Found");
+        }
+        marksRepository.deleteById(marksId);
         return "Success";
     }
 
@@ -105,8 +107,8 @@ public class MarksServiceImpl implements MarksService {
     }
 
     @Override
-    public MarksDTO getMarksDTO(Long marksID) {
-        Marks marks = getMarks(marksID);
+    public MarksDTO getMarksDTO(Long marksId) {
+        Marks marks = getMarks(marksId);
         return new MarksDTO(marks.getMarksId(), marks.getStudent() != null ? marks.getStudent().getUserId() : null,
                 marks.getSubject() != null ? marks.getSubject().getSubjectId() : null, marks.getMarksObtained());
     }

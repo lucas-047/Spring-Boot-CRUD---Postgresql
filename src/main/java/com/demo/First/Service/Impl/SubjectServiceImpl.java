@@ -78,14 +78,18 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public String deleteSubject(Long subjectID) {
-        subjectRepository.deleteById(subjectID);
+    public String deleteSubject(Long subjectId) {
+        Optional<Subject> subject = subjectRepository.findById(subjectId);
+        if (!subject.isPresent()) {
+            throw new EntryNotFoundException("Subject Not Found");
+        }
+        subjectRepository.deleteById(subjectId);
         return "Success";
     }
 
     @Override
-    public Subject getSubject(Long SubjectId) {
-        Optional<Subject> subject = subjectRepository.findById(SubjectId);
+    public Subject getSubject(Long subjectId) {
+        Optional<Subject> subject = subjectRepository.findById(subjectId);
         if (!subject.isPresent()) {
             throw new EntryNotFoundException("Subject Not Found");
         }
