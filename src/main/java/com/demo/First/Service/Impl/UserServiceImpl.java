@@ -4,22 +4,19 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.demo.First.Exception.EntryNotFoundException;
 import com.demo.First.Model.User;
 import com.demo.First.Repo.UserRepository;
 import com.demo.First.Service.UserService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Service
-@NoArgsConstructor
 @AllArgsConstructor
 
 public class UserServiceImpl implements UserService {
-    @Autowired
-    UserRepository userRepository;
+
+    private final UserRepository userRepository;
 
     @Override
     public String createUser(User user) {
@@ -60,7 +57,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String deleteUser(Long userID) {
         Optional<User>  user = userRepository.findById(userID);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new EntryNotFoundException("User Not Found");
         }
         userRepository.deleteById(userID);
@@ -70,7 +67,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(Long userID) {
         Optional<User>  user = userRepository.findById(userID);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new EntryNotFoundException("User Not Found");
         }
         return user.get();

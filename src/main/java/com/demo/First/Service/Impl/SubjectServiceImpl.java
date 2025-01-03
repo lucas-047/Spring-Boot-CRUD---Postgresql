@@ -4,7 +4,8 @@ import java.util.List;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.demo.First.Exception.UserNotAuthorizedException;
 import org.springframework.stereotype.Service;
 import com.demo.First.Model.User;
 import com.demo.First.DTO.SubjectDTO;
@@ -15,16 +16,15 @@ import com.demo.First.Repo.SubjectRepository;
 import com.demo.First.Service.SubjectService;
 import com.demo.First.Service.UserService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Service
-@NoArgsConstructor
+
 @AllArgsConstructor
 public class SubjectServiceImpl implements SubjectService {
-    @Autowired
-    SubjectRepository subjectRepository;
-    @Autowired
-    UserService userService;
+
+    private final SubjectRepository subjectRepository;
+
+    private final UserService userService;
 
     @Override
     public String createSubject(Subject subject) {
@@ -33,7 +33,10 @@ public class SubjectServiceImpl implements SubjectService {
         }
         User teacher = userService.getUser(subject.getTeacher().getUserId());
         if (teacher == null) {
-            return "Teacher not Added";
+            return "Not Success";
+        }
+        if (teacher.getRole().name().equals("STUDENT")) {
+            throw new UserNotAuthorizedException("Add a teacher as a subject teacher");
         }
         subject.setTeacher(teacher);
         subjectRepository.save(subject);
@@ -80,7 +83,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public String deleteSubject(Long subjectId) {
         Optional<Subject> subject = subjectRepository.findById(subjectId);
-        if (!subject.isPresent()) {
+        if (subject.isEmpty()) {
             throw new EntryNotFoundException("Subject Not Found");
         }
         subjectRepository.deleteById(subjectId);
@@ -90,7 +93,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Subject getSubject(Long subjectId) {
         Optional<Subject> subject = subjectRepository.findById(subjectId);
-        if (!subject.isPresent()) {
+        if (subject.isEmpty()) {
             throw new EntryNotFoundException("Subject Not Found");
         }
         return subject.get();

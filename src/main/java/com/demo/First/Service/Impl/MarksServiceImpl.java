@@ -4,7 +4,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.demo.First.Exception.UserNotAuthorizedException;
 import org.springframework.stereotype.Service;
 import com.demo.First.Model.Marks;
 import com.demo.First.Model.Subject;
@@ -16,31 +17,31 @@ import com.demo.First.Service.MarksService;
 import com.demo.First.Service.SubjectService;
 import com.demo.First.Service.UserService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Service
-@NoArgsConstructor
 @AllArgsConstructor
 public class MarksServiceImpl implements MarksService {
-    @Autowired
-    MarksRepository marksRepository;
-    @Autowired
-    UserService userService;
-    @Autowired
-    SubjectService subjectService;
+
+    private final MarksRepository marksRepository;
+    private  final UserService userService;
+    private final SubjectService subjectService;
 
     @Override
     public String createMarks(Marks marks) {
 
         User student = userService.getUser(marks.getStudent().getUserId());
         if (student == null) {
-            return "No Student Added";
+            return "Not Success";
+        }
+        if(student.getRole().name().equals("TEACHER")){
+            throw new UserNotAuthorizedException("Add a student as a user");
         }
         marks.setStudent(student);
         Subject subject = subjectService.getSubject(marks.getSubject().getSubjectId());
         if (subject == null) {
-            return "No Subject Added";
+            return "Not Success";
         }
+
         marks.setSubject(subject);
         marksRepository.save(marks);
         return "Success";
@@ -89,7 +90,7 @@ public class MarksServiceImpl implements MarksService {
     @Override
     public String deleteMarks(Long marksId) {
         Optional<Marks> marks = marksRepository.findById(marksId);
-        if (!marks.isPresent()) {
+        if (marks.isEmpty()) {
             throw new EntryNotFoundException("Marks not Found");
         }
         marksRepository.deleteById(marksId);
@@ -99,7 +100,7 @@ public class MarksServiceImpl implements MarksService {
     @Override
     public Marks getMarks(Long marksId) {
         Optional<Marks> marks = marksRepository.findById(marksId);
-        if (!marks.isPresent()) {
+        if (marks.isEmpty()) {
             throw new EntryNotFoundException("Marks not Found");
         }
         return marks.get();

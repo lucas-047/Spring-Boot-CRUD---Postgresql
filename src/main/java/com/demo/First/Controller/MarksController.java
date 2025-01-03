@@ -1,7 +1,6 @@
 package com.demo.First.Controller;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,15 +17,13 @@ import com.demo.First.Response.ResponseHandler;
 import com.demo.First.DTO.MarksDTO;
 import com.demo.First.Service.MarksService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @RestController
 @RequestMapping("/api/marks")
-@NoArgsConstructor
 @AllArgsConstructor
 public class MarksController {
-    @Autowired
-    MarksService marksService;
+
+    private final MarksService marksService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

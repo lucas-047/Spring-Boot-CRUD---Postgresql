@@ -1,7 +1,6 @@
 package com.demo.First.Controller;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,17 +14,15 @@ import com.demo.First.Model.User;
 import com.demo.First.Response.ResponseHandler;
 import com.demo.First.Service.UserService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("api/user")
-@NoArgsConstructor
 @AllArgsConstructor
 public class UserController {
-    @Autowired
-    UserService userService;
+
+    private final UserService userService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

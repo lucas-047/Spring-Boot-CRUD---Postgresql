@@ -1,7 +1,6 @@
 package com.demo.First.Controller;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,17 +16,13 @@ import com.demo.First.DTO.SubjectDTO;
 import com.demo.First.Model.Subject;
 import com.demo.First.Response.ResponseHandler;
 import com.demo.First.Service.SubjectService;
-
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @RestController
 @RequestMapping("/api/subject")
-@NoArgsConstructor
 @AllArgsConstructor
 public class SubjectController {
-    @Autowired
-    SubjectService subjectService;
+    private final SubjectService subjectService;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Object> createSubject(@RequestBody Subject subject){
