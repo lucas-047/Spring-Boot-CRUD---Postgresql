@@ -2,14 +2,15 @@ package com.demo.First.Service;
 
 import java.util.List;
 
-import com.demo.First.DTO.SubjectDTO;
+import com.demo.First.DTO.SubjectResponseDTO;
+import com.demo.First.DTO.SubjectRequest;
 import com.demo.First.Model.Subject;
 
 public interface SubjectService {
-    public String createSubject(Subject subject);
+    public String createSubject(SubjectRequest subject);
     public String updateSubject(Subject subject);
     public String deleteSubject(Long subjectID);
-    public SubjectDTO getSubjectDTO(Long subjectId);
-    public List<SubjectDTO> getAllSubjectDTO();
+    public SubjectResponseDTO getSubjectDTO(Long subjectId);
+    public List<SubjectResponseDTO> getAllSubjectDTO();
     public Subject getSubject(Long subjectId);
 }

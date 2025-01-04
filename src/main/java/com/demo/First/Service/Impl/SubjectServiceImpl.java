@@ -5,10 +5,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import com.demo.First.DTO.SubjectRequest;
 import com.demo.First.Exception.UserNotAuthorizedException;
 import org.springframework.stereotype.Service;
 import com.demo.First.Model.User;
-import com.demo.First.DTO.SubjectDTO;
+import com.demo.First.DTO.SubjectResponseDTO;
 import com.demo.First.Exception.DuplicateEntryException;
 import com.demo.First.Exception.EntryNotFoundException;
 import com.demo.First.Model.Subject;
@@ -27,19 +28,21 @@ public class SubjectServiceImpl implements SubjectService {
     private final UserService userService;
 
     @Override
-    public String createSubject(Subject subject) {
-        if (subjectRepository.findById(subject.getSubjectId()).isPresent()) {
-            throw new DuplicateEntryException("SubjectId already exists");
+    public String createSubject(SubjectRequest subject) {
+
+        if (subjectRepository.existsBySubjectCode(subject.subjectCode())) {
+            throw new DuplicateEntryException("Subject Code already exists");
         }
-        User teacher = userService.getUser(subject.getTeacher().getUserId());
-        if (teacher == null) {
-            return "Not Success";
-        }
+        User teacher = userService.getUserObject(subject.teacherId());
         if (teacher.getRole().name().equals("STUDENT")) {
             throw new UserNotAuthorizedException("Add a teacher as a subject teacher");
         }
-        subject.setTeacher(teacher);
-        subjectRepository.save(subject);
+        Subject newSubject = Subject.builder()
+                .subjectCode(subject.subjectCode())
+                .subjectName(subject.subjectName())
+                .teacher(teacher)
+                .build();
+        subjectRepository.save(newSubject);
         return "Success";
     }
 
@@ -47,7 +50,7 @@ public class SubjectServiceImpl implements SubjectService {
     public String updateSubject(Subject subject) {
         Subject olSubject = subjectRepository.findById(subject.getSubjectId()).orElse(null);
         if (subject.getTeacher() != null) {
-            User teacher = userService.getUser(subject.getTeacher().getUserId());
+            User teacher = userService.getUserObject(subject.getTeacher().getUserId());
             subject.setTeacher(teacher);
         }
         if (olSubject != null) {
@@ -100,18 +103,18 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public SubjectDTO getSubjectDTO(Long subjectID) {
+    public SubjectResponseDTO getSubjectDTO(Long subjectID) {
         Subject subject = getSubject(subjectID);
-        return new SubjectDTO(subject.getSubjectId(), subject.getSubjectName(),
+        return new SubjectResponseDTO(subject.getSubjectId(), subject.getSubjectName(),
                 subject.getTeacher() != null ? subject.getTeacher().getUserId() : null);
     }
 
     @Override
-    public List<SubjectDTO> getAllSubjectDTO() {
+    public List<SubjectResponseDTO> getAllSubjectDTO() {
         List<Subject> subjects = subjectRepository.findAll();
-        List<SubjectDTO> dtos = new ArrayList<>();
+        List<SubjectResponseDTO> dtos = new ArrayList<>();
         for (Subject subject : subjects) {
-            dtos.add(new SubjectDTO(subject.getSubjectId(), subject.getSubjectName(),
+            dtos.add(new SubjectResponseDTO(subject.getSubjectId(), subject.getSubjectName(),
                     subject.getTeacher() != null ? subject.getTeacher().getUserId() : null));
         }
         return dtos;

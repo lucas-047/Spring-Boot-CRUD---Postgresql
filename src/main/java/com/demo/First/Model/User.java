@@ -1,22 +1,11 @@
 package com.demo.First.Model;
 
+import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "users")
@@ -25,6 +14,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +44,12 @@ public class User {
     
     @Column(name = "address")
     private String address;
+
+    @OneToMany(mappedBy = "teacher",fetch = FetchType.LAZY)
+    private List<Subject> subjects;
+
+    @OneToMany(mappedBy = "student",fetch = FetchType.LAZY)
+    private List<Marks> marks;
     
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

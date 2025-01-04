@@ -1,19 +1,10 @@
 package com.demo.First.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.List;
+
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,15 +14,21 @@ import java.time.LocalDateTime;
 @ToString
 @Getter
 @Setter
+@Builder
 public class Subject {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subject_id")
     private Long subjectId;
+    @Column(name = "subject_code")
+    private Long subjectCode;
     @Column(name = "subject_name")
     private String subjectName;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", referencedColumnName = "user_id")
     private User teacher;
+    @OneToMany(mappedBy = "subject",fetch = FetchType.LAZY)
+    private List<Marks> marks;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

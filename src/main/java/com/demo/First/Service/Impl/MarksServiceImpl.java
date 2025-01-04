@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.demo.First.DTO.MarksRequest;
 import com.demo.First.Exception.UserNotAuthorizedException;
 import org.springframework.stereotype.Service;
 import com.demo.First.Model.Marks;
 import com.demo.First.Model.Subject;
 import com.demo.First.Model.User;
-import com.demo.First.DTO.MarksDTO;
+import com.demo.First.DTO.MarksResponseDTO;
 import com.demo.First.Exception.EntryNotFoundException;
 import com.demo.First.Repo.MarksRepository;
 import com.demo.First.Service.MarksService;
@@ -27,23 +28,19 @@ public class MarksServiceImpl implements MarksService {
     private final SubjectService subjectService;
 
     @Override
-    public String createMarks(Marks marks) {
+    public String createMarks(MarksRequest marks) {
 
-        User student = userService.getUser(marks.getStudent().getUserId());
-        if (student == null) {
-            return "Not Success";
-        }
+        User student = userService.getUserObject(marks.studentId());
         if(student.getRole().name().equals("TEACHER")){
             throw new UserNotAuthorizedException("Add a student as a user");
         }
-        marks.setStudent(student);
-        Subject subject = subjectService.getSubject(marks.getSubject().getSubjectId());
-        if (subject == null) {
-            return "Not Success";
-        }
-
-        marks.setSubject(subject);
-        marksRepository.save(marks);
+        Subject subject = subjectService.getSubject(marks.subjectId());
+        Marks newMarks = Marks.builder()
+                .student(student)
+                .subject(subject)
+                .marksObtained(marks.marksObtained())
+                .build();
+        marksRepository.save(newMarks);
         return "Success";
     }
 
@@ -51,7 +48,7 @@ public class MarksServiceImpl implements MarksService {
     public String updateMarks(Marks marks) {
         Marks oldMarks = marksRepository.findById(marks.getMarksId()).orElse(null);
         if (marks.getStudent() != null) {
-            User student = userService.getUser(marks.getStudent().getUserId());
+            User student = userService.getUserObject(marks.getStudent().getUserId());
             marks.setStudent(student);
         }
         if (marks.getSubject() != null) {
@@ -108,18 +105,18 @@ public class MarksServiceImpl implements MarksService {
     }
 
     @Override
-    public MarksDTO getMarksDTO(Long marksId) {
+    public MarksResponseDTO getMarksDTO(Long marksId) {
         Marks marks = getMarks(marksId);
-        return new MarksDTO(marks.getMarksId(), marks.getStudent() != null ? marks.getStudent().getUserId() : null,
+        return new MarksResponseDTO(marks.getMarksId(), marks.getStudent() != null ? marks.getStudent().getUserId() : null,
                 marks.getSubject() != null ? marks.getSubject().getSubjectId() : null, marks.getMarksObtained());
     }
 
     @Override
-    public List<MarksDTO> getAllMarksDTO() {
+    public List<MarksResponseDTO> getAllMarksDTO() {
         List<Marks> marks = marksRepository.findAll();
-        List<MarksDTO> dtos = new ArrayList<>();
+        List<MarksResponseDTO> dtos = new ArrayList<>();
         for (Marks mark : marks) {
-            dtos.add(new MarksDTO(mark.getMarksId(), mark.getStudent() != null ? mark.getStudent().getUserId() : null,
+            dtos.add(new MarksResponseDTO(mark.getMarksId(), mark.getStudent() != null ? mark.getStudent().getUserId() : null,
                     mark.getSubject() != null ? mark.getSubject().getSubjectId() : null, mark.getMarksObtained()));
         }
         return dtos;

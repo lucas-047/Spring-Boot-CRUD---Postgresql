@@ -1,6 +1,8 @@
 package com.demo.First.Controller;
 
 import java.util.List;
+
+import com.demo.First.DTO.MarksRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.demo.First.Model.Marks;
 import com.demo.First.Response.ResponseHandler;
-import com.demo.First.DTO.MarksDTO;
+import com.demo.First.DTO.MarksResponseDTO;
 import com.demo.First.Service.MarksService;
 import lombok.AllArgsConstructor;
 
@@ -27,7 +29,7 @@ public class MarksController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> createMarks(@RequestBody Marks marks) {
+    public ResponseEntity<Object> createMarks(@RequestBody MarksRequest marks) {
         marksService.createMarks(marks);
         return ResponseHandler.responseBuilder("Marks created Successfully", HttpStatus.CREATED, null);
     }
@@ -46,13 +48,13 @@ public class MarksController {
 
     @GetMapping("/{marksId}")
     public ResponseEntity<Object> getMarks(@PathVariable Long marksId) {
-        MarksDTO marksDTO = marksService.getMarksDTO(marksId);
-        return ResponseHandler.responseBuilder("Marks fetched Successfully", HttpStatus.OK, marksDTO);
+        MarksResponseDTO marksResponseDTO = marksService.getMarksDTO(marksId);
+        return ResponseHandler.responseBuilder("Marks fetched Successfully", HttpStatus.OK, marksResponseDTO);
     }
 
     @GetMapping
     public ResponseEntity<Object> createMarks() {
-        List<MarksDTO> marksDTOs = marksService.getAllMarksDTO();
-        return ResponseHandler.responseBuilder("Marks list fetched Successfully", HttpStatus.OK, marksDTOs);
+        List<MarksResponseDTO> marksResponseDTOS = marksService.getAllMarksDTO();
+        return ResponseHandler.responseBuilder("Marks list fetched Successfully", HttpStatus.OK, marksResponseDTOS);
     }
 }

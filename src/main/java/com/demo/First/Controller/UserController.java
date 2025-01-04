@@ -1,6 +1,9 @@
 package com.demo.First.Controller;
 
 import java.util.List;
+
+import com.demo.First.DTO.UserRequest;
+import com.demo.First.DTO.UserResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +29,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> createUser(@RequestBody User user){
+    public ResponseEntity<Object> createUser(@RequestBody UserRequest user){
         userService.createUser(user);
         return ResponseHandler.responseBuilder("User Created Successfully", HttpStatus.CREATED, null);
     }
@@ -42,7 +45,7 @@ public class UserController {
     }
     @GetMapping("/{userId}")
     public ResponseEntity<Object> getUser(@PathVariable Long userId) {
-        User user = userService.getUser(userId);
+        UserResponseDTO user = userService.getUser(userId);
         return ResponseHandler.responseBuilder("User fetched Successfully", HttpStatus.OK, user);
     }
     

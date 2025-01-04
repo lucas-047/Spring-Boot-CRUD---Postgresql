@@ -12,11 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "marks")
@@ -25,6 +21,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
+@Builder
 public class Marks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

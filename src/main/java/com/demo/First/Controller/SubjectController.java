@@ -1,6 +1,8 @@
 package com.demo.First.Controller;
 
 import java.util.List;
+
+import com.demo.First.DTO.SubjectRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import com.demo.First.DTO.SubjectDTO;
+import com.demo.First.DTO.SubjectResponseDTO;
 import com.demo.First.Model.Subject;
 import com.demo.First.Response.ResponseHandler;
 import com.demo.First.Service.SubjectService;
@@ -25,7 +27,7 @@ public class SubjectController {
     private final SubjectService subjectService;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> createSubject(@RequestBody Subject subject){
+    public ResponseEntity<Object> createSubject(@RequestBody SubjectRequest subject){
         subjectService.createSubject(subject);
         return ResponseHandler.responseBuilder("Subject added Successfully", HttpStatus.CREATED, null);
     }
@@ -41,13 +43,13 @@ public class SubjectController {
     }
     @GetMapping("/{subjectId}")
     public ResponseEntity<Object> getSubject(@PathVariable Long subjectId) {
-        SubjectDTO subject = subjectService.getSubjectDTO(subjectId);
+        SubjectResponseDTO subject = subjectService.getSubjectDTO(subjectId);
         return ResponseHandler.responseBuilder("Subject fetched", HttpStatus.OK, subject);
     }
     
     @GetMapping
     public ResponseEntity<Object> createSubject(){
-        List<SubjectDTO> subjects = subjectService.getAllSubjectDTO();
+        List<SubjectResponseDTO> subjects = subjectService.getAllSubjectDTO();
         return ResponseHandler.responseBuilder("Subject list fetched", HttpStatus.OK, subjects);
     }
 }
