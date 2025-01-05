@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userRepository.findById(userId);
 
         if (userOptional.isEmpty()) {
-            throw new EntryNotFoundException("User not found with id: " + userId);
+            throw new EntryNotFoundException("User Not Found");
         }
         UserResponseDTO userResponseDTO;
         User user = userOptional.get();
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
     public User getUserObject(Long userId){
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()){
-            throw new EntryNotFoundException("User not found with id: " + userId);
+            throw new EntryNotFoundException("User Not Found");
         }
         return user.get();
     }
